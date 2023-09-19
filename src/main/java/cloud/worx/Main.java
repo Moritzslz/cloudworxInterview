@@ -49,6 +49,8 @@ public class Main {
 
         Map<Id, List<GesperrtePLZ>> gesperrtePLZByFirmenIds =  new HashMap<>();
         for (Anfrage anfrage : anfragen) {
+            // State is set according to postal code of requesting person
+            anfrage.setState(getStateFromZipCode(anfrage.Person.BillingPostalCode));
             gesperrtePLZByFirmenIds.put(anfrage.Id, anfrage.Firma.gesperrtePLZ);
         }
 

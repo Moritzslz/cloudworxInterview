@@ -61,4 +61,35 @@ public class Tests {
         boolean result2 = Main.checkBlockedPLZ(anfragen2, oldAnfragen, true);
         assertTrue(result2);
     }
+
+    @Test
+    void testStateAssignment() {
+
+        // Create test data
+        List<GesperrtePLZ> gesperrtePLZ =  new ArrayList<>();
+        for (int i = 86150; i <= 86633; i+= 100) {
+            GesperrtePLZ plz= new GesperrtePLZ("" + i, "" + (i + 99));
+            gesperrtePLZ.add(plz);
+        }
+
+        // valid
+        Firma firma1 = new Firma(new Id(), gesperrtePLZ);
+        Person person1 = new Person("81673");
+        Anfrage anfrage1 = new Anfrage(new Id(), firma1, person1);
+
+        // valid
+        Firma firma2 = new Firma(new Id(), gesperrtePLZ);
+        Person person2 = new Person("91111");
+        Anfrage anfrage2 = new Anfrage(new Id(), firma2, person2);
+
+        List<Anfrage> anfragen1 = Arrays.asList(anfrage1, anfrage2);
+        Map<Id, Anfrage> oldAnfragen = new HashMap<>();
+        oldAnfragen.put(anfrage1.Id, anfrage1);
+
+        boolean result1 = Main.checkBlockedPLZ(anfragen1, oldAnfragen, true);
+        assertFalse(result1);
+
+        assertEquals("BAYERN", anfrage1.getState());
+        assertEquals("THÜRINGEN", anfrage2.getState());
+    }
 }
