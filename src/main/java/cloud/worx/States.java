@@ -1,3 +1,5 @@
+package cloud.worx;
+
 public enum States {
     BAYERN,
     BADEN_WÜRTTEMBERG,
